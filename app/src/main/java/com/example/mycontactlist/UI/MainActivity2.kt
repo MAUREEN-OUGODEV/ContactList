@@ -1,12 +1,18 @@
-package com.example.mycontactlist
+package com.example.mycontactlist.UI
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.activity.viewModels
+import com.example.mycontactlist.R
+
+import com.example.mycontactlist.ViewModel.ContactViewModel
 import com.example.mycontactlist.databinding.ActivityMain2Binding
+import com.example.mycontactlist.model.ContactList
 
 class MainActivity2 : AppCompatActivity() {
     lateinit var binding:ActivityMain2Binding
+    val contactViewModel:ContactViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -32,24 +38,29 @@ class MainActivity2 : AppCompatActivity() {
         var error=false
 
         if (name.isBlank()) {
-            binding.tilContactName.error = "First name is required"
             error = true
+            binding.tilContactName.error = "First name is required"
+
 
         }
         if (email.isBlank()){
-            binding.tilEmail.error="First name is required"
             error=true
+            binding.tilEmail.error="First name is required"
+
 
         }
         if (phoneNumber.isBlank()){
-            binding.tilPhoneNumber.error="First name is required"
             error=true
+            binding.tilPhoneNumber.error="First name is required"
+
 
         }
 
         if(!error){
-            Toast.makeText(this,"Congradulations Joy on your sign up", Toast.LENGTH_SHORT)
-                .show()
+           val newContact=ContactList(0,name,phoneNumber,email,"")
+            contactViewModel.saveContact(newContact)
+
+            Toast.makeText(this,getString(R.string.contact_saved), Toast.LENGTH_SHORT).show()
         }
 
     }
